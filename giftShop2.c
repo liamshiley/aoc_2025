@@ -7,11 +7,21 @@ bool isRepeated(long long n) {
   char s[60];
   sprintf(s, "%lld", n);
   int len = strlen(s);
-  if (len % 2 != 0) {
-    return false;
+
+  for (int baseLen = 1; baseLen <= len / 2; baseLen++) {
+    if (len % baseLen != 0) continue;
+    bool match = true;
+    for (int i = baseLen; i < len; i++) {
+      if (s[i] != s[i % baseLen]) {
+        match = false;
+        break;
+      }
+    }
+    if (match == true) {
+      return true;
+    }
   }
-  int mid = len / 2;
-  return strncmp(s, s + mid, mid) == 0;
+  return false;
 }
 
 int main(int argc, char** argv) {
