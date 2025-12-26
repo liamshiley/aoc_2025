@@ -2,6 +2,7 @@
 #include <inttypes.h>
 #include <strings.h>
 #include <stdio.h>
+#include <stdbool.h>
 
 int main(int argc, char** argv) {
   FILE* fp = fopen(argv[1], "r");
@@ -16,6 +17,7 @@ int main(int argc, char** argv) {
 
 while(removed != 0){
     removed = 0;
+    bool toRemove[150][150] = {false};
   for(int i = 0; i < 140; i++){
     for(int j = 0; j < 140; j++){
         if(map[i][j] == '\n') continue;
@@ -31,7 +33,7 @@ while(removed != 0){
             if(map[i+1][j-1] == '@' || map[i+1][j-1] == 'x') nextTo++;
 ;            if(nextTo < 4){
                // printf("Next To: %d, i: %d, j: %d\n", nextTo, i, j);
-                map[i][j] = 'x';
+                toRemove[i][j] = true;
                 removed++;
                 valid++;
             }
@@ -40,7 +42,7 @@ while(removed != 0){
   }
   for(int i = 0; i < 140; i++){
     for(int j = 0; j < 140; j++){
-        if(map[i][j] == 'x'){
+        if(toRemove[i][j]){
             map[i][j] = '.';
         }
     }
